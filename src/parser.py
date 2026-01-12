@@ -9,10 +9,14 @@ class Parser(ABC):
 
     @abstractmethod
     def __init__(self, file_worker):
+        """Инициализация абстрактного класса Parser"""
+
         pass
 
     @abstractmethod
     def load_vacancies(self, keyword):
+        """Абстрактный метод получения вакансий"""
+
         pass
 
 class HH(Parser):
@@ -21,26 +25,27 @@ class HH(Parser):
     """
 
     def __init__(self, file_worker):
-        self.url = 'https://api.hh.ru/vacancies'
-        self.headers = {'User-Agent': 'HH-User-Agent'}
-        self.params = {'text': '', 'page': 0, 'per_page': 100}
-        self.vacancies = []
+        """Инициализация класса HH"""
+
+        self.__url = 'https://api.hh.ru/vacancies'
+        self.__headers = {'User-Agent': 'HH-User-Agent'}
+        self.__params = {'text': '', 'page': 0, 'per_page': 100}
+        self.__vacancies = []
         super().__init__(file_worker)
 
-    def load_vacancies(self, keyword):
+    def __load_vacancies(self, keyword):
         """
         Загрузить вакансии по ключевому слову с hh.ru
-        :param keyword: ключевое слово для поиска вакансий
         """
-        self.params['text'] = keyword
-        while self.params.get('page') != 20:
-            response = requests.get(self.url, headers=self.headers, params=self.params)
+        self.__params['text'] = keyword
+        while self.__params.get('page') != 20:
+            response = requests.get(self.__url, headers=self.__headers, params=self.__params)
             if response.status_code == 200:
                 vacancies = response.json().get('items', [])
                 if not vacancies:
                     break
-                self.vacancies.extend(vacancies)
-                self.params['page'] += 1
+                self.__vacancies.extend(vacancies)
+                self.__params['page'] += 1
             else:
                 print(f"Ошибка загрузки данных: {response.status_code}")
                 break
