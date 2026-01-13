@@ -8,7 +8,7 @@ class Parser(ABC):
     """
 
     @abstractmethod
-    def __init__(self, file_worker):
+    def __init__(self):
         """Инициализация абстрактного класса Parser"""
 
         pass
@@ -24,19 +24,19 @@ class HH(Parser):
     Класс для работы с API HeadHunter
     """
 
-    def __init__(self, file_worker):
+    def __init__(self):
         """Инициализация класса HH"""
 
         self.__url = 'https://api.hh.ru/vacancies'
         self.__headers = {'User-Agent': 'HH-User-Agent'}
         self.__params = {'text': '', 'page': 0, 'per_page': 100}
         self.__vacancies = []
-        super().__init__(file_worker)
 
     def __load_vacancies(self, keyword):
         """
         Загрузить вакансии по ключевому слову с hh.ru
         """
+
         self.__params['text'] = keyword
         while self.__params.get('page') != 20:
             response = requests.get(self.__url, headers=self.__headers, params=self.__params)
