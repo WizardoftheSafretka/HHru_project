@@ -19,7 +19,7 @@ class Parser(ABC):
 
         pass
 
-class HH(Parser):
+class HeadHunterAPI(Parser):
     """
     Класс для работы с API HeadHunter
     """
@@ -32,7 +32,7 @@ class HH(Parser):
         self.__params = {'text': '', 'page': 0, 'per_page': 100}
         self.__vacancies = []
 
-    def __load_vacancies(self, keyword):
+    def load_vacancies(self, keyword):
         """
         Загрузить вакансии по ключевому слову с hh.ru
         """

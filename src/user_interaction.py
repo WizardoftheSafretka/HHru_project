@@ -1,7 +1,7 @@
 from src.utils import filter_vacancies, get_vacancies_by_salary, sort_vacancies, get_top_vacancies
 
 
-def user_interaction(vacancies_list: dict):
+def user_interaction() -> None:
     platforms = ["HeadHunter"]
     search_query = input("Введите поисковый запрос: ")
     top_n = int(input("Введите количество вакансий для вывода в топ N: "))
