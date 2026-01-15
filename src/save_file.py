@@ -43,7 +43,7 @@ class SaveFile(AbstractWorkFile):
         with open(file_name, 'r', encoding='UTF-8') as f:
             data = json.load(f)
         if "items" in data:
-            return [item for item in data["items"] if keyword in item]
+            return [item for item in data["items"] if keyword in item["name"]]
         else:
             return []
 
