@@ -6,6 +6,9 @@ class Vacancy:
 
     __slots__ = ('name', 'alternate_url', '_salary', 'responsibility')
 
+    def __str__(self):
+        return "name: self.name, alternate_url: self.alternate_url, salary: self._salary"
+
     def __init__(self, name, alternate_url, salary, responsibility):
             self.name = name
             self.alternate_url = alternate_url
@@ -21,8 +24,6 @@ class Vacancy:
     def salary(self, value):
         """Сеттер для salary. Хранит исходное значение."""
         self._salary = value
-
-
 
     def __lt__(self, other):
         return self.salary < other.salary

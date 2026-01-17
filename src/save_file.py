@@ -6,8 +6,8 @@ class AbstractWorkFile(ABC):
     """Абстрактный класс для работы с файлами"""
 
     @abstractmethod
-    def add_vacancy(self, vacancy):
-        """Абстрактный метод для добавления вакансий"""
+    def save_data(self, vacancy_list):
+        """Абстрактный метод для сохранения вакансий"""
 
         pass
 
@@ -18,7 +18,7 @@ class AbstractWorkFile(ABC):
         pass
 
     @abstractmethod
-    def del_info(self, file_name, name):
+    def del_data(self, file_name, name):
         """Абстрактный метод для удаления информации"""
 
         pass
@@ -30,12 +30,20 @@ class SaveFile(AbstractWorkFile):
     def __init__(self, file_name='vacancy.json'):
         self.__file_name = file_name
 
-    def add_vacancy(self, vacancy):
-        """Метод для добавления вакансий"""
+    def save_data(self, vacancy_list):
+        """Метод для сохранения вакансий"""
 
-        data = vacancy
-        with open(self.__file_name, 'a', encoding="UTF-8") as f:
-            json.dump(data, f)
+        with open(self.__file_name, 'r', encoding="UTF-8") as f:
+            data = json.load(f)
+        new_data = vacancy_list
+        result_data_dict = {}
+        for d in data + new_data:
+            result_data_dict[d["alternate_url"]] = d
+
+        result = list(result_data_dict.values())
+
+        with open(self.__file_name, 'w', encoding="UTF-8") as f:
+            json.dump(f, result)
 
     def get_data(self, file_name, keyword):
         """Метод для получения данных"""
