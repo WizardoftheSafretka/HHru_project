@@ -1,28 +1,28 @@
 class Vacancy:
     name: str
-    link: str
+    alternate_url: str
     salary: int
-    description: str
+    responsibility: str
 
-    __slots__ = ('name', 'link', 'salary', 'description')
+    __slots__ = ('name', 'alternate_url', '_salary', 'responsibility')
 
-    def __init__(self, name, link, salary, description):
-        if name:
+    def __init__(self, name, alternate_url, salary, responsibility):
             self.name = name
-        else:
-            raise ValueError("Имя не указано")
-        if link:
-            self.link = link
-        else:
-            raise ValueError("Ссылка не указана")
-        if salary:
-            self.salary = salary
-        else:
-            raise ValueError("Зарплата не указана")
-        if description:
-            self.description = description
-        else:
-            raise ValueError("Описание не указано")
+            self.alternate_url = alternate_url
+            self._salary = salary
+            self.responsibility = responsibility
+
+    @property
+    def salary(self):
+        """Геттер для salary. Возвращает 0 если salary = None."""
+        return self._salary if isinstance(self._salary, int) else 0
+
+    @salary.setter
+    def salary(self, value):
+        """Сеттер для salary. Хранит исходное значение."""
+        self._salary = value
+
+
 
     def __lt__(self, other):
         return self.salary < other.salary
@@ -32,6 +32,9 @@ class Vacancy:
 
     def __eq__(self, other):
         return self.salary == other.salary
+
+    def cast_to_dict(self):
+        return {"name": self.name, "alternate_url": self.alternate_url, "salary": self._salary}
 
 
 

@@ -1,30 +1,66 @@
-from unittest.mock import patch
-
+from unittest.mock import patch, Mock
 
 from src.parser import HeadHunterAPI
 
 
 @patch('requests.get')
 def test_head_api(mock_get):
-    mock_get.return_value.status_code = 200
-    mock_get.return_value.json.return_value = {
-        'items': [{'id': '123', 'name': 'Developer'}]
-    }
-
-    api = HeadHunterAPI()
-    api.load_vacancies('Developer')
-
-    assert {'id': '123', 'name': 'Developer'} in api._HeadHunterAPI__vacancies
+    hh_api = HeadHunterAPI()
+    mock_response = Mock()
+    mock_response.status_code = 200
+    mock_get.return_value = mock_response
+    result = hh_api._api_connection()
+    mock_get.assert_called_once_with(
+        hh_api._HeadHunterAPI__url,
+        headers=hh_api._HeadHunterAPI__headers,
+        params=hh_api._HeadHunterAPI__params
+    )
+    assert result == mock_response
 
 @patch('requests.get')
-def test_head_api_300(mock_get):
-    mock_get.return_value.status_code = 300
-    mock_get.return_value.json.return_value = {
+def test_head_api_error(mock_get):
+    hh_api = HeadHunterAPI()
+    mock_response = Mock()
+    mock_response.status_code = 300
+    mock_get.return_value = mock_response
+    result = hh_api._api_connection()
+    mock_get.assert_called_once_with(
+        hh_api._HeadHunterAPI__url,
+        headers=hh_api._HeadHunterAPI__headers,
+        params=hh_api._HeadHunterAPI__params
+    )
+    assert result is None
+
+
+@patch('requests.get')
+def test_load_vacancies(mock_get):
+    hh_api = HeadHunterAPI()
+    mock_response = Mock()
+    mock_response.status_code = 200
+    mock_response.json.return_value = {
         'items': [{'id': '123', 'name': 'Developer'}]
     }
+    mock_get.return_value = mock_response
+    hh_api._load_vacancies("Developer")
+    mock_get.assert_called_with(
+        hh_api._HeadHunterAPI__url,
+        headers=hh_api._HeadHunterAPI__headers,
+        params=hh_api._HeadHunterAPI__params
+    )
+    assert {'id': '123', 'name': 'Developer'} in hh_api._HeadHunterAPI__vacancies
 
-    api = HeadHunterAPI()
-    api.load_vacancies('Developer')
-
-    assert {'id': '123', 'name': 'Developer'} not in api._HeadHunterAPI__vacancies
+@patch('requests.get')
+def test_load_vacancies_empty(mock_get):
+    hh_api = HeadHunterAPI()
+    mock_response = Mock()
+    mock_response.status_code = 200
+    mock_response.json.return_value = {}
+    mock_get.return_value = mock_response
+    hh_api._load_vacancies("Developer")
+    mock_get.assert_called_with(
+        hh_api._HeadHunterAPI__url,
+        headers=hh_api._HeadHunterAPI__headers,
+        params=hh_api._HeadHunterAPI__params
+    )
+    assert hh_api._HeadHunterAPI__vacancies == []
 
