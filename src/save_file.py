@@ -12,13 +12,13 @@ class AbstractWorkFile(ABC):
         pass
 
     @abstractmethod
-    def get_data(self, file_name, keyword):
+    def get_data(self, keyword):
         """Абстрактный метод для получения данных"""
 
         pass
 
     @abstractmethod
-    def del_data(self, file_name, name):
+    def del_data(self, keyword):
         """Абстрактный метод для удаления информации"""
 
         pass
@@ -36,33 +36,34 @@ class SaveFile(AbstractWorkFile):
         with open(self.__file_name, 'r', encoding="UTF-8") as f:
             data = json.load(f)
         new_data = vacancy_list
-        result_data_dict = {}
-        for d in data + new_data:
-            result_data_dict[d["alternate_url"]] = d
-
-        result = list(result_data_dict.values())
-
+        data.update(new_data)
         with open(self.__file_name, 'w', encoding="UTF-8") as f:
-            json.dump(f, result)
+            json.dump(data, f)
 
-    def get_data(self, file_name, keyword):
-        """Метод для получения данных"""
+    def get_data(self, keyword):
+        """Метод для получения данных по ключевому слову"""
 
-        with open(file_name, 'r', encoding='UTF-8') as f:
+        with open(self.__file_name, 'r', encoding='UTF-8') as f:
             data = json.load(f)
-        if "items" in data:
-            return [item for item in data["items"] if keyword in item["name"]]
-        else:
-            return []
+        result = []
+        for item in data:
+            if (keyword.lower() in item.get("name", "").lower() or
+                    keyword.lower() in item.get("responsibility", "").lower()):
+                result.append(item)
+        return result
 
-    def del_info(self, file_name, name):
+    def del_data(self, keyword):
         """Метод для удаления информации"""
 
-        with open(file_name, 'r', encoding='UTF-8') as f:
+        with open(self.__file_name, 'r', encoding='UTF-8') as f:
             data = json.load(f)
-        data["items"] = [item for item in data["items"] if item["name"] != name]
-        with open(file_name, 'w', encoding='UTF-8') as f:
-            json.dump(data, f, ensure_ascii=False, indent=4)
+        filtered_data = [
+            item for item in data
+            if (item.get("name", "").lower() != keyword.lower() and
+                keyword.lower() not in item.get("responsibility", "").lower())
+        ]
+        with open(self.__file_name, 'w', encoding='UTF-8') as f:
+            json.dump(filtered_data, f, ensure_ascii=False, indent=4)
 
 
 
