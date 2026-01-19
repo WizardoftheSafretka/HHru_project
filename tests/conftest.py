@@ -14,7 +14,7 @@ def test_vacancy():
 
 
 @pytest.fixture()
-def save_file(self):
+def save_file():
     with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
         temp_file_name = f.name
     save_file = SaveFile(temp_file_name)
@@ -23,8 +23,8 @@ def save_file(self):
         os.unlink(temp_file_name)
 
 @pytest.fixture()
-def sample_data(self):
-    return [
+def sample_data():
+    return {"items":{
         {
             "name": "Python Developer",
             "responsibility": "Разработка на Python",
@@ -35,4 +35,4 @@ def sample_data(self):
             "responsibility": "Разработка на Java",
             "salary": 120000
         }
-    ]
+    }}

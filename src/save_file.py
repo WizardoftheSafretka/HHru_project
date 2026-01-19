@@ -1,4 +1,5 @@
 import json
+import os
 from abc import ABC, abstractmethod
 
 
@@ -33,12 +34,17 @@ class SaveFile(AbstractWorkFile):
     def save_data(self, vacancy_list):
         """Метод для сохранения вакансий"""
 
-        with open(self.__file_name, 'r', encoding="UTF-8") as f:
-            data = json.load(f)
-        new_data = vacancy_list
-        data.update(new_data)
-        with open(self.__file_name, 'w', encoding="UTF-8") as f:
-            json.dump(data, f)
+        if os.path.exists(self.__file_name):
+            with open(self.__file_name, 'r', encoding="UTF-8") as f:
+                data = json.load(f)
+            new_data = vacancy_list
+            data.append(new_data)
+
+        else:
+            with open(self.__file_name, 'w', encoding="UTF-8") as f:
+                data = vacancy_list
+                json.dump(data, f)
+
 
     def get_data(self, keyword):
         """Метод для получения данных по ключевому слову"""

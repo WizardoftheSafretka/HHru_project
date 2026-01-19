@@ -27,14 +27,14 @@ class HeadHunterAPI(Parser):
     def __init__(self):
         """Инициализация класса HH"""
 
-        self.__url = 'https://api.hh.ru/vacancies'
-        self.__headers = {'User-Agent': 'HH-User-Agent'}
-        self.__params = {'text': '', 'page': 0, 'per_page': 100}
-        self.__vacancies = []
+        self._url = 'https://api.hh.ru/vacancies'
+        self._headers = {'User-Agent': 'HH-User-Agent'}
+        self._params = {'text': '', 'page': 0, 'per_page': 100}
+        self._vacancies = []
 
     def _api_connection(self):
         """Метод подключения к API"""
-        response = requests.get(self.__url, headers=self.__headers, params=self.__params)
+        response = requests.get(self._url, headers=self._headers, params=self._params)
         if response.status_code == 200:
             return response
         else:
@@ -45,11 +45,11 @@ class HeadHunterAPI(Parser):
         """
         Загрузить вакансии по ключевому слову с hh.ru
         """
-        self.__params['text'] = keyword
-        while self.__params.get('page') != 20:
+        self._params['text'] = keyword
+        while self._params.get('page') != 20:
             response = self._api_connection()
             vacancies = response.json().get('items', [])
             if not vacancies:
               break
-            self.__vacancies.extend(vacancies)
-            self.__params['page'] += 1
+            self._vacancies.extend(vacancies)
+            self._params['page'] += 1

@@ -552,6 +552,20 @@ files = [
 ]
 
 [[package]]
+name = "null"
+version = "0.6.1"
+description = "Implements the null object pattern."
+optional = false
+python-versions = "*"
+groups = ["main"]
+files = [
+    {file = "null-0.6.1.tar.gz", hash = "sha256:77debb2c7a6c47d4d44a129f507f01267d1df4844b432fbf05491d7f6bb6aeee"},
+]
+
+[package.dependencies]
+six = "*"
+
+[[package]]
 name = "packaging"
 version = "25.0"
 description = "Core utilities for Python packages"
@@ -733,6 +747,18 @@ socks = ["PySocks (>=1.5.6,!=1.5.7)"]
 use-chardet-on-py3 = ["chardet (>=3.0.2,<6)"]
 
 [[package]]
+name = "six"
+version = "1.17.0"
+description = "Python 2 and 3 compatibility utilities"
+optional = false
+python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7"
+groups = ["main"]
+files = [
+    {file = "six-1.17.0-py2.py3-none-any.whl", hash = "sha256:4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274"},
+    {file = "six-1.17.0.tar.gz", hash = "sha256:ff70335d468e7eb6ec65b95b99d3a2836546063f63acc5171de367e834932a81"},
+]
+
+[[package]]
 name = "typing-extensions"
 version = "4.15.0"
 description = "Backported and Experimental Type Hints for Python 3.9+"
@@ -765,4 +791,4 @@ zstd = ["backports-zstd (>=1.0.0) ; python_version < \"3.14\""]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.13"
-content-hash = "2010408e6928ee977142ba191a178168ac0fc3c4e6116262a3bcbf3520ed5557"
+content-hash = "27967ab0f1882bc667c53abfd966b96d4bd085c0cdf2683cf162e999540ada72"

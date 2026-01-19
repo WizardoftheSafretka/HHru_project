@@ -20,3 +20,6 @@ def get_top_vacancies(sorted_vacancies: list, top_n: int) -> list:
     """Функция, возвращающая топ N вакансий"""
 
     return sorted_vacancies[0: top_n]
+
+def return_0(x):
+    return x if x is not None else 0

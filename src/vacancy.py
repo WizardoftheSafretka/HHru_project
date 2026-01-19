@@ -7,35 +7,33 @@ class Vacancy:
     __slots__ = ('name', 'alternate_url', '_salary', 'responsibility')
 
     def __str__(self):
-        return "name: self.name, alternate_url: self.alternate_url, salary: self._salary"
+        return f"name: {self.name}, alternate_url: {self.alternate_url}, salary: {self._salary}, responsibility: {self.responsibility}"
 
     def __init__(self, name, alternate_url, salary, responsibility):
             self.name = name
             self.alternate_url = alternate_url
-            self._salary = salary
+            self._salary = self.validation(salary)
             self.responsibility = responsibility
 
-    @property
-    def salary(self):
-        """Геттер для salary. Возвращает 0 если salary = None."""
-        return self._salary if isinstance(self._salary, int) else 0
-
-    @salary.setter
-    def salary(self, value):
-        """Сеттер для salary. Хранит исходное значение."""
-        self._salary = value
+    @staticmethod
+    def validation(x):
+        return (x["from"] if isinstance(x["from"], int) else 0 +x["to"]
+        if isinstance(x["to"], int) else 0)/(bool(x["from"])+bool(x["to"])) \
+            if isinstance(x, dict) else 0
 
     def __lt__(self, other):
-        return self.salary < other.salary
+        return self._salary < other._salary
 
     def __gt__(self, other):
-        return self.salary > other.salary
+        return self._salary > other._salary
 
     def __eq__(self, other):
-        return self.salary == other.salary
+        return self._salary == other._salary
 
     def cast_to_dict(self):
-        return {"name": self.name, "alternate_url": self.alternate_url, "salary": self._salary}
+        return {"name": self.name, "alternate_url": self.alternate_url, "salary": self._salary, "responsibility": self.responsibility}
 
-
+if __name__ == "__main__":
+    exp_1 = Vacancy("test", "www", None, "responsibility")
+    print(exp_1)
 
