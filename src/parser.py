@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+
 import requests
 
 
@@ -19,6 +20,7 @@ class Parser(ABC):
 
         pass
 
+
 class HeadHunterAPI(Parser):
     """
     Класс для работы с API HeadHunter
@@ -27,9 +29,9 @@ class HeadHunterAPI(Parser):
     def __init__(self):
         """Инициализация класса HH"""
 
-        self._url = 'https://api.hh.ru/vacancies'
-        self._headers = {'User-Agent': 'HH-User-Agent'}
-        self._params = {'text': '', 'page': 0, 'per_page': 100}
+        self._url = "https://api.hh.ru/vacancies"
+        self._headers = {"User-Agent": "HH-User-Agent"}
+        self._params = {"text": "", "page": 0, "per_page": 100}
         self._vacancies = []
 
     def _api_connection(self):
@@ -45,11 +47,11 @@ class HeadHunterAPI(Parser):
         """
         Загрузить вакансии по ключевому слову с hh.ru
         """
-        self._params['text'] = keyword
-        while self._params.get('page') != 20:
+        self._params["text"] = keyword
+        while self._params.get("page") != 20:
             response = self._api_connection()
-            vacancies = response.json().get('items', [])
+            vacancies = response.json().get("items", [])
             if not vacancies:
-              break
+                break
             self._vacancies.extend(vacancies)
-            self._params['page'] += 1
+            self._params["page"] += 1

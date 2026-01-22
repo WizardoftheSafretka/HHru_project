@@ -1,7 +1,7 @@
 class Vacancy:
     """Класс для представления вакансии."""
 
-    __slots__ = ('name', 'alternate_url', '_salary', 'responsibility')
+    __slots__ = ("name", "alternate_url", "_salary", "responsibility")
 
     def __init__(self, name: str, alternate_url: str, salary: dict | int | None, responsibility: str):
         """Инициализация вакансии"""
@@ -38,18 +38,20 @@ class Vacancy:
 
     def __str__(self) -> str:
         """Строковое представление вакансии."""
-        return (f"Вакансия: {self.name}\n"
-                f"Ссылка: {self.alternate_url}\n"
-                f"Зарплата: {self._salary:.2f}\n"
-                f"Описание: {self.responsibility[:100]}{'...' if len(self.responsibility) > 100 else ''}")
+        return (
+            f"Вакансия: {self.name}\n"
+            f"Ссылка: {self.alternate_url}\n"
+            f"Зарплата: {self._salary:.2f}\n"
+            f"Описание: {self.responsibility[:100]}{'...' if len(self.responsibility) > 100 else ''}"
+        )
 
-    def __lt__(self, other: 'Vacancy') -> bool:
+    def __lt__(self, other: "Vacancy") -> bool:
         """Сравнение вакансий по зарплате (<)."""
         if not isinstance(other, Vacancy):
             raise TypeError("Можно сравнивать только объекты Vacancy")
         return self._salary < other._salary
 
-    def __gt__(self, other: 'Vacancy') -> bool:
+    def __gt__(self, other: "Vacancy") -> bool:
         """Сравнение вакансий по зарплате (>)."""
         if not isinstance(other, Vacancy):
             raise TypeError("Можно сравнивать только объекты Vacancy")
@@ -67,5 +69,5 @@ class Vacancy:
             "name": self.name,
             "alternate_url": self.alternate_url,
             "salary": self._salary,
-            "responsibility": self.responsibility
+            "responsibility": self.responsibility,
         }

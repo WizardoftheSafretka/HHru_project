@@ -9,7 +9,7 @@ class TestVacancy:
             name="Python Developer",
             alternate_url="https://hh.ru/vacancy/123",
             salary={"from": 100000, "to": 150000},
-            responsibility="Разработка на Python"
+            responsibility="Разработка на Python",
         )
 
         assert vacancy.name == "Python Developer"
@@ -22,7 +22,7 @@ class TestVacancy:
             name="Python Developer",
             alternate_url="https://hh.ru/vacancy/123",
             salary=None,
-            responsibility="Разработка на Python"
+            responsibility="Разработка на Python",
         )
 
         assert vacancy.salary == 0
@@ -32,7 +32,7 @@ class TestVacancy:
             name="Python Developer",
             alternate_url="https://hh.ru/vacancy/123",
             salary=120000,
-            responsibility="Разработка на Python"
+            responsibility="Разработка на Python",
         )
 
         assert vacancy.salary == 120000
@@ -42,7 +42,7 @@ class TestVacancy:
             name="Developer 1",
             alternate_url="https://hh.ru/vacancy/1",
             salary={"from": 100000, "to": None},
-            responsibility="Разработка"
+            responsibility="Разработка",
         )
         assert vacancy1.salary == 100000
 
@@ -50,7 +50,7 @@ class TestVacancy:
             name="Developer 2",
             alternate_url="https://hh.ru/vacancy/2",
             salary={"from": None, "to": 150000},
-            responsibility="Разработка"
+            responsibility="Разработка",
         )
         assert vacancy2.salary == 150000
 
@@ -58,17 +58,14 @@ class TestVacancy:
             name="Developer 3",
             alternate_url="https://hh.ru/vacancy/3",
             salary={"from": None, "to": None},
-            responsibility="Разработка"
+            responsibility="Разработка",
         )
         assert vacancy3.salary == 0
 
     def test_validation_edge_cases(self):
 
         vacancy = Vacancy(
-            name="Developer",
-            alternate_url="https://hh.ru/vacancy/123",
-            salary={},
-            responsibility="Разработка"
+            name="Developer", alternate_url="https://hh.ru/vacancy/123", salary={}, responsibility="Разработка"
         )
         assert vacancy.salary == 0
 
@@ -76,7 +73,7 @@ class TestVacancy:
             name="Developer",
             alternate_url="https://hh.ru/vacancy/123",
             salary={"from": "100000", "to": "150000"},
-            responsibility="Разработка"
+            responsibility="Разработка",
         )
         assert vacancy.salary == 0
 
@@ -85,7 +82,7 @@ class TestVacancy:
             name="Python Developer",
             alternate_url="https://hh.ru/vacancy/123",
             salary={"from": 100000, "to": 150000},
-            responsibility="Разработка на Python"
+            responsibility="Разработка на Python",
         )
 
         assert isinstance(vacancy.salary, float)
@@ -96,7 +93,7 @@ class TestVacancy:
             name="Python Developer",
             alternate_url="https://hh.ru/vacancy/123",
             salary={"from": 100000, "to": 150000},
-            responsibility="Разработка на Python, Django, Flask. Требования: опыт от 3 лет."
+            responsibility="Разработка на Python, Django, Flask. Требования: опыт от 3 лет.",
         )
 
         result = str(vacancy)
@@ -111,21 +108,21 @@ class TestVacancy:
             name="Junior",
             alternate_url="https://hh.ru/vacancy/1",
             salary={"from": 50000, "to": 70000},
-            responsibility="Разработка"
+            responsibility="Разработка",
         )
 
         vacancy2 = Vacancy(
             name="Middle",
             alternate_url="https://hh.ru/vacancy/2",
             salary={"from": 100000, "to": 150000},
-            responsibility="Разработка"
+            responsibility="Разработка",
         )
 
         vacancy3 = Vacancy(
             name="Middle 2",
             alternate_url="https://hh.ru/vacancy/3",
             salary={"from": 100000, "to": 150000},
-            responsibility="Разработка"
+            responsibility="Разработка",
         )
 
         assert vacancy1 < vacancy2
@@ -142,7 +139,7 @@ class TestVacancy:
             name="Developer",
             alternate_url="https://hh.ru/vacancy/1",
             salary={"from": 100000, "to": 150000},
-            responsibility="Разработка"
+            responsibility="Разработка",
         )
 
         with pytest.raises(TypeError, match="Можно сравнивать только объекты Vacancy"):
@@ -158,7 +155,7 @@ class TestVacancy:
             name="Python Developer",
             alternate_url="https://hh.ru/vacancy/123",
             salary={"from": 100000, "to": 150000},
-            responsibility="Разработка на Python"
+            responsibility="Разработка на Python",
         )
 
         result = vacancy.cast_to_dict()

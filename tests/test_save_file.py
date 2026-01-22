@@ -15,17 +15,17 @@ class TestSaveFile:
         self.vacancy1 = {
             "name": "Python Developer",
             "responsibility": "Разработка веб-приложений на Python",
-            "salary": "100000-150000"
+            "salary": "100000-150000",
         }
         self.vacancy2 = {
             "name": "Java Developer",
             "responsibility": "Создание enterprise-решений",
-            "salary": "120000-160000"
+            "salary": "120000-160000",
         }
         self.vacancy3 = {
             "name": "Data Scientist",
             "responsibility": "Анализ данных и машинное обучение на Python",
-            "salary": "150000-200000"
+            "salary": "150000-200000",
         }
 
     def teardown_method(self):
@@ -35,7 +35,7 @@ class TestSaveFile:
     def test_save_data_to_new_file(self):
         self.saver.save_data([self.vacancy1])
         assert os.path.exists(self.test_file)
-        with open(self.test_file, 'r', encoding='UTF-8') as f:
+        with open(self.test_file, "r", encoding="UTF-8") as f:
             data = json.load(f)
         assert len(data) == 1
         assert data[0]["name"] == "Python Developer"
@@ -43,7 +43,7 @@ class TestSaveFile:
     def test_save_data_to_existing_file(self):
         self.saver.save_data([self.vacancy1])
         self.saver.save_data([self.vacancy2])
-        with open(self.test_file, 'r', encoding='UTF-8') as f:
+        with open(self.test_file, "r", encoding="UTF-8") as f:
             data = json.load(f)
         assert len(data) == 2
         assert data[0]["name"] == "Python Developer"
@@ -51,7 +51,7 @@ class TestSaveFile:
 
     def test_save_single_vacancy(self):
         self.saver.save_data(self.vacancy1)
-        with open(self.test_file, 'r', encoding='UTF-8') as f:
+        with open(self.test_file, "r", encoding="UTF-8") as f:
             data = json.load(f)
         assert isinstance(data, list)
         assert len(data) == 1
@@ -59,7 +59,7 @@ class TestSaveFile:
     def test_save_empty_list(self):
         self.saver.save_data([])
         assert os.path.exists(self.test_file)
-        with open(self.test_file, 'r', encoding='UTF-8') as f:
+        with open(self.test_file, "r", encoding="UTF-8") as f:
             data = json.load(f)
         assert data == []
 
@@ -114,14 +114,14 @@ class TestSaveFile:
     def test_del_data_partial_match(self):
         self.saver.save_data([self.vacancy1])
         self.saver.del_data("Dev")
-        with open(self.test_file, 'r', encoding='UTF-8') as f:
+        with open(self.test_file, "r", encoding="UTF-8") as f:
             data = json.load(f)
         assert len(data) == 0
 
     def test_del_data_nothing_to_delete(self):
         self.saver.save_data([self.vacancy1])
         self.saver.del_data("JavaScript")
-        with open(self.test_file, 'r', encoding='UTF-8') as f:
+        with open(self.test_file, "r", encoding="UTF-8") as f:
             data = json.load(f)
 
         assert len(data) == 1
@@ -130,7 +130,7 @@ class TestSaveFile:
     def test_del_data_from_empty_file(self):
         self.saver.save_data([])
         self.saver.del_data("Python")
-        with open(self.test_file, 'r', encoding='UTF-8') as f:
+        with open(self.test_file, "r", encoding="UTF-8") as f:
             data = json.load(f)
         assert data == []
 

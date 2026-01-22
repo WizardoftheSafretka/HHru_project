@@ -10,11 +10,12 @@ def user_interaction() -> None:
     raw_vacancies = hh_api._vacancies
     vacancy_objects = []
     for vac in raw_vacancies:
-        v = Vacancy(name=vac["name"],
-                    salary=vac["salary"],
-                    alternate_url=vac["alternate_url"],
-                    responsibility=vac["snippet"]["responsibility"]
-                    )
+        v = Vacancy(
+            name=vac["name"],
+            salary=vac["salary"],
+            alternate_url=vac["alternate_url"],
+            responsibility=vac["snippet"]["responsibility"],
+        )
         vacancy_objects.append(v)
 
     filter_words = input("Введите ключевые слова для фильтрации вакансий: ").split()
@@ -34,7 +35,7 @@ def user_interaction() -> None:
         dict_vacations.append(v.cast_to_dict())
 
     save_yes_no = input("Сохранить данные в файл? Да/Нет? ").lower()
-    if save_yes_no == 'да':
+    if save_yes_no == "да":
         name_file = input("Введите название файла")
         if name_file == "":
             save = SaveFile()
@@ -44,7 +45,7 @@ def user_interaction() -> None:
     else:
         None
     del_yes_no = input("Удалить данные из файла? ").lower()
-    if del_yes_no == 'да':
+    if del_yes_no == "да":
         name_file = input("Введите название файла")
         if name_file == "":
             save = SaveFile()
@@ -54,4 +55,3 @@ def user_interaction() -> None:
         save.del_data(del_word)
     else:
         None
-

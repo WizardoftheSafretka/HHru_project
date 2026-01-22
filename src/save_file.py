@@ -25,7 +25,7 @@ class AbstractWorkFile(ABC):
 class SaveFile(AbstractWorkFile):
     """Класс для сохранения информации о вакансиях"""
 
-    def __init__(self, file_name='vacancy.json'):
+    def __init__(self, file_name="vacancy.json"):
         self.__file_name = file_name
 
     def save_data(self, vacancy_list):
@@ -34,17 +34,17 @@ class SaveFile(AbstractWorkFile):
             vacancy_list = [vacancy_list]
 
         if os.path.exists(self.__file_name):
-            with open(self.__file_name, 'r', encoding="UTF-8") as f:
+            with open(self.__file_name, "r", encoding="UTF-8") as f:
                 data = json.load(f)
                 if not isinstance(data, list):
                     data = [data]
             data.extend(vacancy_list)
 
-            with open(self.__file_name, 'w', encoding="UTF-8") as f:
+            with open(self.__file_name, "w", encoding="UTF-8") as f:
                 json.dump(data, f, ensure_ascii=False, indent=4)
 
         else:
-            with open(self.__file_name, 'w', encoding="UTF-8") as f:
+            with open(self.__file_name, "w", encoding="UTF-8") as f:
                 json.dump(vacancy_list, f, ensure_ascii=False, indent=4)
 
     def get_data(self, keyword):
@@ -52,14 +52,16 @@ class SaveFile(AbstractWorkFile):
         if not os.path.exists(self.__file_name):
             return []
 
-        with open(self.__file_name, 'r', encoding='UTF-8') as f:
+        with open(self.__file_name, "r", encoding="UTF-8") as f:
             data = json.load(f)
             if not isinstance(data, list):
                 data = [data]
         result = []
         for item in data:
-            if (keyword.lower() in item.get("name", "").lower() or
-                    keyword.lower() in item.get("responsibility", "").lower()):
+            if (
+                keyword.lower() in item.get("name", "").lower()
+                or keyword.lower() in item.get("responsibility", "").lower()
+            ):
                 result.append(item)
         return result
 
@@ -68,16 +70,19 @@ class SaveFile(AbstractWorkFile):
         if not os.path.exists(self.__file_name):
             return
 
-        with open(self.__file_name, 'r', encoding='UTF-8') as f:
-                data = json.load(f)
-                if not isinstance(data, list):
-                    data = [data]
+        with open(self.__file_name, "r", encoding="UTF-8") as f:
+            data = json.load(f)
+            if not isinstance(data, list):
+                data = [data]
 
         filtered_data = [
-            item for item in data
-            if (keyword.lower() not in item.get("name", "").lower() and
-                keyword.lower() not in item.get("responsibility", "").lower())
+            item
+            for item in data
+            if (
+                keyword.lower() not in item.get("name", "").lower()
+                and keyword.lower() not in item.get("responsibility", "").lower()
+            )
         ]
 
-        with open(self.__file_name, 'w', encoding='UTF-8') as f:
+        with open(self.__file_name, "w", encoding="UTF-8") as f:
             json.dump(filtered_data, f, ensure_ascii=False, indent=4)
