@@ -11,9 +11,9 @@ def test_head_api(mock_get):
     mock_get.return_value = mock_response
     result = hh_api._api_connection()
     mock_get.assert_called_once_with(
-        hh_api._HeadHunterAPI__url,
-        headers=hh_api._HeadHunterAPI__headers,
-        params=hh_api._HeadHunterAPI__params
+        hh_api._url,
+        headers=hh_api._headers,
+        params=hh_api._params
     )
     assert result == mock_response
 
@@ -25,9 +25,9 @@ def test_head_api_error(mock_get):
     mock_get.return_value = mock_response
     result = hh_api._api_connection()
     mock_get.assert_called_once_with(
-        hh_api._HeadHunterAPI__url,
-        headers=hh_api._HeadHunterAPI__headers,
-        params=hh_api._HeadHunterAPI__params
+        hh_api._url,
+        headers=hh_api._headers,
+        params=hh_api._params
     )
     assert result is None
 
@@ -43,11 +43,11 @@ def test_load_vacancies(mock_get):
     mock_get.return_value = mock_response
     hh_api._load_vacancies("Developer")
     mock_get.assert_called_with(
-        hh_api._HeadHunterAPI__url,
-        headers=hh_api._HeadHunterAPI__headers,
-        params=hh_api._HeadHunterAPI__params
+        hh_api._url,
+        headers=hh_api._headers,
+        params=hh_api._params
     )
-    assert {'id': '123', 'name': 'Developer'} in hh_api._HeadHunterAPI__vacancies
+    assert {'id': '123', 'name': 'Developer'} in hh_api._vacancies
 
 @patch('requests.get')
 def test_load_vacancies_empty(mock_get):
@@ -58,9 +58,9 @@ def test_load_vacancies_empty(mock_get):
     mock_get.return_value = mock_response
     hh_api._load_vacancies("Developer")
     mock_get.assert_called_with(
-        hh_api._HeadHunterAPI__url,
-        headers=hh_api._HeadHunterAPI__headers,
-        params=hh_api._HeadHunterAPI__params
+        hh_api._url,
+        headers=hh_api._headers,
+        params=hh_api._params
     )
-    assert hh_api._HeadHunterAPI__vacancies == []
+    assert hh_api._vacancies == []
 

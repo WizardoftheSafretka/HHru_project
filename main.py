@@ -1,6 +1,3 @@
-import json
-from typing import Any
-
 from src.parser import HeadHunterAPI
 from src.save_file import SaveFile
 from src.vacancy import Vacancy
@@ -20,7 +17,7 @@ def user_interaction() -> None:
                     )
         vacancy_objects.append(v)
 
-    filter_words  = input("Введите ключевые слова для фильтрации вакансий: ").split()
+    filter_words = input("Введите ключевые слова для фильтрации вакансий: ").split()
     filtered_vacancies = []
     if filter_words:
         for vacancy in vacancy_objects:
@@ -31,7 +28,7 @@ def user_interaction() -> None:
         filtered_vacancies = vacancy_objects
 
     top_n = int(input("Введите количество вакансий для вывода в топ N: "))
-    top_vacancies = sorted(filtered_vacancies[:top_n], reverse = True)
+    top_vacancies = sorted(filtered_vacancies[:top_n], reverse=True)
     dict_vacations = []
     for v in top_vacancies:
         dict_vacations.append(v.cast_to_dict())
@@ -46,30 +43,15 @@ def user_interaction() -> None:
         save.save_data(dict_vacations)
     else:
         None
-    if name_file == "":
-        with open("vacancy.json", 'r', encoding='UTF-8') as f:
-                data = json.load(f)
+    del_yes_no = input("Удалить данные из файла? ").lower()
+    if del_yes_no == 'да':
+        name_file = input("Введите название файла")
+        if name_file == "":
+            save = SaveFile()
+        else:
+            save = SaveFile(name_file)
+        del_word = "Введите ключевое слово"
+        save.del_data(del_word)
     else:
-        with open(name_file, 'r', encoding='UTF-8') as f:
-            data = json.load(f)
-    print(data)
+        None
 
-
-
-
-
-
-    # top_n = int(input("Введите количество вакансий для вывода в топ N: "))
-    # filter_words = input("Введите ключевые слова для фильтрации вакансий: ").split()
-    # salary_range = input("Введите диапазон зарплат в формате мин - макс: ") # Пример: 100000 - 150000
-    #
-    # filtered_vacancies = filter_vacancies(vacancies_list, filter_words)
-    #
-    # ranged_vacancies = get_vacancies_by_salary(filtered_vacancies, salary_range)
-    #
-    # sorted_vacancies = sort_vacancies(ranged_vacancies)
-    # top_vacancies = get_top_vacancies(sorted_vacancies, top_n)
-    # print(top_vacancies)
-
-if __name__ == "__main__":
-    (user_interaction())
